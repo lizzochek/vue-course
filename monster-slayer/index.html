@@ -17,32 +17,37 @@
       <h1>Monster Slayer</h1>
     </header>
     <div id="game">
-      <section v-if="!winner" id="monster" class="container">
-        <h2>Monster Health</h2>
-        <div class="healthbar">
-          <div class="healthbar__value" :style="monsterBarStyles"></div>
-        </div>
-      </section>
-      <section v-if="!winner" id="player" class="container">
-        <h2>Your Health</h2>
-        <div class="healthbar">
-          <div class="healthbar__value" :style="playerBarStyles"></div>
-        </div>
-      </section>
+      <div v-if="!winner">
+        <section id="monster" class="container">
+          <h2>Monster Health</h2>
+          <div class="healthbar">
+            <div class="healthbar__value" :style="monsterBarStyles"></div>
+          </div>
+        </section>
+        <section id="player" class="container">
+          <h2>Your Health</h2>
+          <div class="healthbar">
+            <div class="healthbar__value" :style="playerBarStyles"></div>
+          </div>
+        </section>
+        <section id="controls">
+          <button @click="attackMonster">ATTACK</button>
+          <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">
+            SPECIAL ATTACK
+          </button>
+          <button @click="healPlayer">HEAL</button>
+          <button @click="surrender">SURRENDER</button>
+        </section>
+      </div>
+
       <section v-if="winner" class="container">
         <h2>Game over!</h2>
         <h3 v-if="winner === 'monster'">You lost!</h3>
         <h3 v-else-if="winner === 'player'">You won!</h3>
         <h3 v-else>It's a draw!</h3>
+        <button @click="startNewGame">Start new game</button>
       </section>
-      <section id="controls">
-        <button @click="attackMonster">ATTACK</button>
-        <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">
-          SPECIAL ATTACK
-        </button>
-        <button @click="healPlayer">HEAL</button>
-        <button>SURRENDER</button>
-      </section>
+
       <section id="log" class="container">
         <h2>Battle Log</h2>
         <ul></ul>

@@ -36,6 +36,12 @@ Vue.createApp({
     },
   },
   methods: {
+    startNewGame() {
+      this.playerHealth = 100;
+      this.monsterHealth = 100;
+      this.currentRound = 0;
+      this.winner = null;
+    },
     attackMonster() {
       //attack value is between 5 and 12
       this.monsterHealth -= getRandomValue(5, 12);
@@ -62,6 +68,9 @@ Vue.createApp({
 
       this.attackPlayer();
       this.currentRound++;
+    },
+    surrender() {
+      this.winner = "monster";
     },
   },
 }).mount("#game");
