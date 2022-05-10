@@ -36,5 +36,17 @@ Vue.createApp({
       this.attackPlayer();
       this.currentRound++;
     },
+    healPlayer() {
+      const healValue = getRandomValue(8, 20);
+
+      if (this.playerHealth + healValue > 100) {
+        this.playerHealth = 100;
+      } else {
+        this.playerHealth += healValue;
+      }
+
+      this.attackPlayer();
+      this.currentRound++;
+    },
   },
 }).mount("#game");
