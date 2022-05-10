@@ -6,6 +6,12 @@ const app = Vue.createApp({
       confirmedName: "",
     };
   },
+  computed: {
+    fullName() {
+      if (this.name === "") return "";
+      return this.name + " " + "Dolhova";
+    },
+  },
   methods: {
     addOne(num) {
       this.counter = this.counter + num;
@@ -19,8 +25,8 @@ const app = Vue.createApp({
     submitForm() {
       alert("Submitted!");
     },
-    confirmName() {
-      this.confirmedName = this.name;
+    resetInput() {
+      this.name = "";
     },
   },
 });
