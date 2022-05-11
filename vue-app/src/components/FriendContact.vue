@@ -7,10 +7,17 @@
       <li>Phone: {{ phone }}</li>
       <li>Email: {{ email }}</li>
     </ul>
+    <button @click="deleteFriend">Delete</button>
   </li>
 </template>
 
 <script>
+const idValidator = function (id) {
+  if (id) return true;
+
+  console.warn("Id is missing");
+  return false;
+};
 export default {
   //   props: ["name", "phone", "email"],
   props: {
@@ -27,12 +34,8 @@ export default {
     isFavourite: Boolean,
   },
   emits: {
-    "toggle-favourite": function (id) {
-      if (id) return true;
-
-      console.warn("Id is missing");
-      return false;
-    },
+    "toggle-favourite": idValidator,
+    "delete-friend": idValidator,
   },
   data() {
     return {
@@ -45,6 +48,9 @@ export default {
     },
     toggleFavourite() {
       this.$emit("toggle-favourite", this.id);
+    },
+    deleteFriend() {
+      this.$emit("delete-friend", this.id);
     },
   },
 };
