@@ -1,12 +1,16 @@
 <template>
-  <item-list :resources="storedResources"></item-list>
+  <section>
+    <the-header></the-header>
+    <item-list :resources="storedResources"></item-list>
+  </section>
 </template>
 
 <script>
-import ItemList from './components/ItemList.vue';
+import ItemList from './components/list/ItemList.vue';
+import TheHeader from './components/TheHeader.vue';
 
 export default {
-  components: { ItemList },
+  components: { ItemList, TheHeader },
   data() {
     return {
       storedResources: [
