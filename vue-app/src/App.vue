@@ -3,14 +3,11 @@
     <header><h1>My friends</h1></header>
     <ul>
       <friend-contact
-        name="Liza Dolhova"
-        phone="0523226586"
-        email="liza@gmail.com"
-      ></friend-contact>
-      <friend-contact
-        name="Anna Winter"
-        phone="0578954561"
-        email="anna@gmail.com"
+        v-for="friend in friends"
+        :key="friend.id"
+        :name="friend.name"
+        :phone="friend.phone"
+        :email="friend.email"
       ></friend-contact>
     </ul>
   </section>
