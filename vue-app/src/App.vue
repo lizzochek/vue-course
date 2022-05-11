@@ -2,8 +2,16 @@
   <section>
     <header><h1>My friends</h1></header>
     <ul>
-      <friend-contact></friend-contact>
-      <friend-contact></friend-contact>
+      <friend-contact
+        name="Liza Dolhova"
+        phone="0523226586"
+        email="liza@gmail.com"
+      ></friend-contact>
+      <friend-contact
+        name="Anna Winter"
+        phone="0578954561"
+        email="anna@gmail.com"
+      ></friend-contact>
     </ul>
   </section>
 </template>
