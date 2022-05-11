@@ -1,9 +1,14 @@
 <template>
   <li>
-    <h2>{{ resource.title }}</h2>
+    <header>
+      <h2>{{ resource.title }}</h2>
+      <button>Delete</button>
+    </header>
     <ul>
-      <li>{{ resource.description }}</li>
-      <li><a :href="resource.link">Visit a website</a></li>
+      <p>{{ resource.description }}</p>
+      <nav>
+        <a :href="resource.link">Visit a website</a>
+      </nav>
     </ul>
   </li>
 </template>
