@@ -1,15 +1,12 @@
 <template>
-  <ul>
-    <base-list-item
-      v-for="resource in storedResources"
-      :key="resource.id"
-      :resource="resource"
-    ></base-list-item>
-  </ul>
+  <item-list :resources="storedResources"></item-list>
 </template>
 
 <script>
+import ItemList from './components/ItemList.vue';
+
 export default {
+  components: { ItemList },
   data() {
     return {
       storedResources: [
@@ -32,4 +29,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
