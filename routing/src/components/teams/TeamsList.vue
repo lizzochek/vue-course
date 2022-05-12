@@ -1,4 +1,5 @@
 <template>
+  <router-view :key="teamId"></router-view>
   <ul>
     <teams-item
       v-for="team in teams"
@@ -8,6 +9,7 @@
       :member-count="team.members.length"
     ></teams-item>
   </ul>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -18,6 +20,7 @@ export default {
     TeamsItem,
   },
   inject: ['teams'],
+  props: ['teamId'],
 };
 </script>
 
