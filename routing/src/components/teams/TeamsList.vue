@@ -9,7 +9,6 @@
       :member-count="team.members.length"
     ></teams-item>
   </ul>
-  <router-view></router-view>
 </template>
 
 <script>
