@@ -51,6 +51,7 @@ export default {
     return {
       resources: this.storedResources,
       addResource: this.addResource,
+      deleteResource: this.deleteResource,
     };
   },
   methods: {
@@ -66,6 +67,12 @@ export default {
       };
       this.storedResources.unshift(newResource);
       this.selectedTab = 'item-list';
+    },
+    deleteResource(id) {
+      const itemIndex = this.storedResources.indexOf(
+        (resource) => resource.id === id
+      );
+      this.storedResources.splice(itemIndex, 1);
     },
   },
 };
