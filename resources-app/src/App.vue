@@ -1,35 +1,16 @@
 <template>
   <section>
     <the-header></the-header>
-    <item-list :resources="storedResources"></item-list>
+    <the-resources></the-resources>
   </section>
 </template>
 
 <script>
-import ItemList from './components/list/ItemList.vue';
+import TheResources from './components/learning-resources/TheResources.vue';
 import TheHeader from './components/TheHeader.vue';
 
 export default {
-  components: { ItemList, TheHeader },
-  data() {
-    return {
-      storedResources: [
-        {
-          id: 'official-guide',
-          title: 'Official guide',
-          description: 'The official Vue.js documentation',
-          link: 'https://vuejs.org',
-        },
-
-        {
-          id: 'google',
-          title: 'Google',
-          description: 'You need to google!',
-          link: 'https://google/com',
-        },
-      ],
-    };
-  },
+  components: { TheHeader, TheResources },
 };
 </script>
 
