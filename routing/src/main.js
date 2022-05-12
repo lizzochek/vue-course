@@ -7,6 +7,7 @@ import UsersList from './components/users/UsersList.vue';
 import TeamMembers from './components/teams/TeamMembers.vue';
 
 const router = createRouter({
+  meta: {},
   history: createWebHistory(),
   routes: [
     { path: '/', redirect: '/teams' },
@@ -24,7 +25,14 @@ const router = createRouter({
       ],
       props: true,
     },
-    { path: '/users', component: UsersList },
+    {
+      path: '/users',
+      component: UsersList,
+      beforeEnter(to, from, next) {
+        console.log('users beforeEnter');
+        next();
+      },
+    },
     { path: '/:notFound(.*)', redirect: '/teams' },
   ],
   scrollBehavior(to, from, savedPosition) {
@@ -33,6 +41,11 @@ const router = createRouter({
     }
     return { left: 0, top: 0 };
   },
+});
+
+router.afterEach(() => {
+  //sending analytics data. Logs, etc.
+  console.log('Global after each');
 });
 
 const app = createApp(App);

@@ -43,6 +43,10 @@ export default {
     this.members = selectedMembers;
     this.teamName = selectedTeam.name;
   },
+  beforeRouteUpdate(to, from, next) {
+    console.log('beforeRouteUpdate');
+    next();
+  },
 };
 </script>
 

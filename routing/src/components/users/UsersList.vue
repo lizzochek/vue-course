@@ -1,4 +1,5 @@
 <template>
+  <button @click="saveChanges">Save changes</button>
   <ul>
     <user-item
       v-for="user in users"
@@ -13,10 +14,35 @@
 import UserItem from './UserItem.vue';
 
 export default {
+  data() {
+    return {
+      changesSaved: false,
+    };
+  },
   components: {
     UserItem,
   },
   inject: ['users'],
+  methods: {
+    saveChanges() {
+      this.changesSaved = true;
+    },
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log('userList beforeRouteEnter');
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    //here you can accept or deny navigation
+    console.log('beforeRouteLeave');
+
+    if (this.changesSaved) {
+      next();
+    } else {
+      const userWantsToLeave = confirm('Are you sure you want to leave?');
+      next(userWantsToLeave);
+    }
+  },
 };
 </script>
 
