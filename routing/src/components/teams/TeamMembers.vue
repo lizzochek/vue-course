@@ -20,6 +20,7 @@ export default {
   components: {
     UserItem,
   },
+  props: ['teamId'],
   data() {
     return {
       teamName: '',
@@ -27,7 +28,7 @@ export default {
     };
   },
   created() {
-    const teamId = this.$route.params.teamId;
+    const teamId = this.teamId;
     const selectedTeam = this.teams.find((team) => team.id === teamId);
 
     const memberIds = selectedTeam.members;
