@@ -4,7 +4,15 @@
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
-    <transition>
+    <transition
+      :css="false"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
+    >
       <p v-if="paragraphVisible">This is sometimes visible</p>
     </transition>
     <button @click="toggleParagraph">Toggle paragraph</button>
@@ -32,9 +40,45 @@ export default {
       animatedBlock: false,
       paragraphVisible: true,
       usersVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
+    beforeEnter(el) {
+      el.style.opacity = 0;
+    },
+    enter(el, done) {
+      let round = 1;
+      this.enterInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20);
+    },
+    beforeLeave(el) {
+      el.style.opacity = 1;
+    },
+    leave(el, done) {
+      let round = 1;
+      this.leaveInterval = setInterval(() => {
+        el.style.opacity = 1 - round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20);
+    },
+    enterCancelled() {
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled() {
+      clearInterval(this.enterInterval);
+    },
     showUsers() {
       this.usersVisible = true;
     },
@@ -101,36 +145,6 @@ button:active {
 
 .animate {
   animation: slide-scale 0.5s ease-out forwards;
-}
-
-.v-enter-from {
-  /* opacity: 0;
-  transform: translateY(-30px); */
-}
-
-.v-enter-active {
-  /* transition: all 0.3s ease-out; */
-  animation: slide-scale 0.3s ease-out;
-}
-
-.v-enter-to {
-  /* opacity: 1;
-  transform: translateY(0); */
-}
-
-.v-leave-from {
-  /* opacity: 1;
-  transform: translateY(0); */
-}
-
-.v-leave-active {
-  /* transition: all 0.3s ease-out; */
-  animation: slide-scale 0.3s ease-out;
-}
-
-.v-leave-to {
-  /* opacity: 0;
-  transform: translateY(-30px); */
 }
 
 .fade-button-enter-from,
