@@ -1,22 +1,25 @@
 <template>
   <section>FILTER</section>
   <section>
-    <div class="controls">
-      <button>Refresh</button>
-      <router-link to="/register">Register as Coach</router-link>
-    </div>
-    <div v-if="hasCoaches">
-      <ul v-for="coach in filteredCoaches" :key="coach.id">
-        <coach-item :coach="coach"> </coach-item>
-      </ul>
-    </div>
+    <base-card>
+      <div class="controls">
+        <base-button mode="outline">Refresh</base-button>
+        <base-button link to="/register">Register as Coach</base-button>
+      </div>
 
-    <h3 v-else>No coaches found</h3>
+      <div v-if="hasCoaches">
+        <ul v-for="coach in filteredCoaches" :key="coach.id">
+          <coach-item :coach="coach"> </coach-item>
+        </ul>
+      </div>
+
+      <h3 v-else>No coaches found</h3>
+    </base-card>
   </section>
 </template>
 
 <script>
-import CoachItem from '../../coaches/CoachItem.vue';
+import CoachItem from './CoachItem.vue';
 
 export default {
   components: { CoachItem },
@@ -30,3 +33,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
