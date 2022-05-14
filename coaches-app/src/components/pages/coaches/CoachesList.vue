@@ -1,6 +1,6 @@
 <template>
   <section>
-    <coach-filter @change-filter="setFilters()"></coach-filter>
+    <coach-filter @change-filter="setFilters"></coach-filter>
   </section>
   <section>
     <base-card>
@@ -44,8 +44,7 @@ export default {
           return true;
         if (this.activeFilters.career && coach.areas.includes('career'))
           return true;
-
-        return false;
+        else return false;
       });
     },
     hasCoaches() {
