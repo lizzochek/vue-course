@@ -24,14 +24,28 @@ export default {
       ],
     };
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    registerCoach(state, payload) {
+      state.coaches.push(payload);
+    },
+  },
+  actions: {
+    registerCoach(context, data) {
+      data.id = context.rootGetters.userId;
+      context.commit('registerCoach', data);
+    },
+  },
   getters: {
     getCoaches(state) {
       return state.coaches;
     },
     hasCoaches(state) {
       return state.coaches && state.coaches.length > 0;
+    },
+    isCoach(_, getters, _2, rootGetters) {
+      return getters.getCoaches.some(
+        (coach) => coach.id === rootGetters.userId
+      );
     },
   },
 };
