@@ -1,10 +1,13 @@
 <template>
+  <base-dialog :show="!!error" title="An error occured" @close="handleError">
+  </base-dialog>
   <section>
     <base-card>
       <header>
         <h2>Requests received</h2>
       </header>
-      <ul v-if="hasRequests">
+      <base-spinner v-if="isLoading"></base-spinner>
+      <ul v-else-if="hasRequests && !isLoading">
         <request-item
           v-for="req in receivedRequests"
           :key="req.id"
@@ -29,6 +32,23 @@ export default {
     hasRequests() {
       return this.$store.getters['requests/hasRequests'];
     },
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
+    error() {
+      return this.$store.state.error;
+    },
+  },
+  methods: {
+    loadRequests() {
+      this.$store.dispatch('requests/fetchRequests');
+    },
+    handleError() {
+      this.error = null;
+    },
+  },
+  created() {
+    this.loadRequests();
   },
 };
 </script>

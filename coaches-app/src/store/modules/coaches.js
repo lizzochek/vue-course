@@ -74,7 +74,7 @@ export default {
       const coaches = [];
 
       for (let value of Object.values(resData)) {
-        coaches.push(value);
+        coaches.push({ ...value, id: context.rootGetters.userId });
       }
 
       context.commit('setCoaches', coaches);
