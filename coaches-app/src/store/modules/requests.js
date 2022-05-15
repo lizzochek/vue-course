@@ -21,11 +21,13 @@ export default {
     },
   },
   getters: {
-    getRequests(state) {
-      return state.requests;
+    getRequests(state, getters, rootState, rootGetters) {
+      const coachId = rootGetters.userId;
+
+      return state.requests.filter((req) => req.coachId === coachId);
     },
-    hasRequests(state) {
-      return state.requests && state.requests.length > 0;
+    hasRequests(state, getters) {
+      return getters.getRequests && getters.getRequests.length > 0;
     },
   },
 };
