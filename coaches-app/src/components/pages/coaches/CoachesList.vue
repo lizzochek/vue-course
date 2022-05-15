@@ -11,7 +11,9 @@
         <base-button mode="outline" @click="loadCoaches(true)"
           >Refresh</base-button
         >
-        <base-button link to="/auth" v-if="!isLoggedIn">Log in</base-button>
+        <base-button link to="/auth?redirect=register" v-if="!isLoggedIn"
+          >Log in to register as a coach</base-button
+        >
         <base-button v-if="allowRegistation" link to="/register"
           >Register as Coach</base-button
         >
@@ -50,7 +52,7 @@ export default {
     };
   },
   computed: {
-    allowRegistration() {
+    allowRegistation() {
       return !this.isCoach && !this.isLoading && this.isLoggedIn;
     },
     isCoach() {
