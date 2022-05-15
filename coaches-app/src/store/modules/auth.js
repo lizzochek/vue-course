@@ -8,7 +8,9 @@ export default {
   },
   mutations: {
     setUser(state, payload) {
-      state = { ...payload };
+      state.userId = payload.userId;
+      state.token = payload.token;
+      state.tokenExpiration = payload.tokenExpiration;
     },
   },
   actions: {
@@ -26,9 +28,7 @@ export default {
       const resData = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          resData.message || 'User with such email already exists'
-        );
+        throw new Error(resData.message || 'Please check your data');
       }
 
       context.commit('setUser', {
@@ -66,6 +66,9 @@ export default {
   getters: {
     userId(state) {
       return state.userId;
+    },
+    getToken(state) {
+      return state.token;
     },
   },
 };

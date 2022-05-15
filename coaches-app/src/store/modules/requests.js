@@ -41,8 +41,10 @@ export default {
     },
     async fetchRequests(context) {
       const coachId = context.rootGetters.userId;
+      const token = context.rootGetters.getToken;
+
       const response = await fetch(
-        `https://vue-http-requests-bf711-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`
+        `https://vue-http-requests-bf711-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json?auth=${token}`
       );
 
       const resData = await response.json();
@@ -53,13 +55,16 @@ export default {
 
       const requests = [];
 
-      for (let [key, value] of Object.entries(resData)) {
-        requests.unshift({
-          id: key,
-          coachId,
-          ...value,
-        });
+      if (resData) {
+        for (let [key, value] of Object.entries(resData)) {
+          requests.unshift({
+            id: key,
+            coachId,
+            ...value,
+          });
+        }
       }
+
       context.commit('setRequests', requests);
     },
   },
