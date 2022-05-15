@@ -20,4 +20,12 @@ export default {
       context.commit('addRequest', newRequest);
     },
   },
+  getters: {
+    getRequests(state) {
+      return state.requests;
+    },
+    hasRequests(state) {
+      return state.requests && state.requests.length > 0;
+    },
+  },
 };
