@@ -3,8 +3,6 @@ export default {
   state() {
     return {
       lastFetch: null,
-      error: null,
-      isLoading: false,
       coaches: [
         {
           id: 'c1',
@@ -64,18 +62,15 @@ export default {
     async loadCoaches(context, payload) {
       if (!payload && !context.getters.shouldUpdate) return;
 
-      this.state.isLoading = true;
       const response = await fetch(
         `https://vue-http-requests-bf711-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
       );
 
-      if (!response.ok) {
-        this.state.error = response.message || 'Failed to fetch';
-        throw new Error(this.state.error);
-      }
-
       const resData = await response.json();
-      if (resData) this.state.isLoading = false;
+
+      if (!response.ok) {
+        throw new Error(resData.message || 'Failed to fetch');
+      }
 
       const coaches = [];
 

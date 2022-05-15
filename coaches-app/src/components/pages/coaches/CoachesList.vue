@@ -1,8 +1,6 @@
 <template>
-  <base-dialog :show="!!error" title="An error occured" @close="handleError">
-    <p>
-      {{ error }}
-    </p>
+  <base-dialog :show="!!error" title="An error occured">
+    <p>{{ error }}</p>
   </base-dialog>
   <section>
     <coach-filter @change-filter="setFilters"></coach-filter>
@@ -45,15 +43,15 @@ export default {
         backend: true,
         career: true,
       },
+      isLoading: false,
+      error: false,
     };
   },
   computed: {
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
     },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
+
     filteredCoaches() {
       return this.$store.getters['coaches/getCoaches'].filter((coach) => {
         if (this.activeFilters.frontend && coach.areas.includes('frontend'))
@@ -68,19 +66,23 @@ export default {
     hasCoaches() {
       return this.$store.getters['coaches/hasCoaches'];
     },
-    error() {
-      return this.$store.state.error;
-    },
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
     async loadCoaches(forceRefresh = false) {
-      this.$store.dispatch('coaches/loadCoaches', forceRefresh);
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch('coaches/loadCoaches', forceRefresh);
+      } catch (err) {
+        this.error = err.message;
+      }
+
+      this.isLoading = false;
     },
     handleError() {
-      this.$store.state.error = null;
+      this.error = null;
     },
   },
   created() {

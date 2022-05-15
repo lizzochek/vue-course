@@ -25,6 +25,12 @@
 import RequestItem from './RequestItem.vue';
 
 export default {
+  data() {
+    return {
+      isLoading: false,
+      error: false,
+    };
+  },
   components: { RequestItem },
   computed: {
     receivedRequests() {
@@ -33,19 +39,21 @@ export default {
     hasRequests() {
       return this.$store.getters['requests/hasRequests'];
     },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
-    error() {
-      return this.$store.state.error;
-    },
   },
   methods: {
-    loadRequests() {
-      this.$store.dispatch('requests/fetchRequests');
+    async loadRequests() {
+      this.isLoading = true;
+
+      try {
+        await this.$store.dispatch('requests/fetchRequests');
+      } catch (err) {
+        this.error = err.message;
+      }
+
+      this.isLoading = false;
     },
     handleError() {
-      this.$store.state.error = null;
+      this.error = null;
     },
   },
   created() {

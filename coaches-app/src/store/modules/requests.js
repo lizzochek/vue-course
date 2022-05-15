@@ -2,8 +2,6 @@ export default {
   namespaced: true,
   state() {
     return {
-      error: null,
-      isLoading: false,
       requests: [],
     };
   },
@@ -28,12 +26,12 @@ export default {
         }
       );
 
+      const resData = await response.json();
+
       if (!response.ok) {
-        this.state.error = response.message || 'Failed to fetch';
-        throw new Error(this.state.error);
+        throw new Error(response.message || 'Failed to fetch');
       }
 
-      const resData = await response.json();
       const newRequest = {
         ...payload,
         id: resData.name,
@@ -42,19 +40,16 @@ export default {
       context.commit('addRequest', newRequest);
     },
     async fetchRequests(context) {
-      this.state.isLoading = true;
       const coachId = context.rootGetters.userId;
       const response = await fetch(
         `https://vue-http-requests-bf711-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`
       );
 
-      if (!response.ok) {
-        this.state.error = response.message || 'Failed to fetch';
-        throw new Error(this.state.error);
-      }
-
       const resData = await response.json();
-      if (resData) this.state.isLoading = false;
+
+      if (!response.ok) {
+        throw new Error(response.message || 'Failed to fetch');
+      }
 
       const requests = [];
 

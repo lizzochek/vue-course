@@ -27,7 +27,9 @@ export default {
       const resData = await response.json();
 
       if (!response.ok) {
-        throw new Error(resData.message || 'Failed to fetch');
+        throw new Error(
+          resData.message || 'User with such email already exists'
+        );
       }
 
       context.commit('setUser', {

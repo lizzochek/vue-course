@@ -1,21 +1,29 @@
 <template>
-  <base-card>
-    <form @submit.prevent="submitForm">
-      <div class="form-control">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model.trim="email" />
-      </div>
-      <div class="form-control">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model.trim="password" />
-      </div>
-      <p v-if="!formIsValid">Please enter a valid email and password</p>
-      <base-button>{{ submitButtonCaption }}</base-button>
-      <base-button type="button" mode="flat" @click="switchMode">{{
-        switchModeCaption
-      }}</base-button>
-    </form>
-  </base-card>
+  <div>
+    <base-dialog :show="!!error" title="An error occured" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <base-dialog :show="isLoading" title="Authenticating..." fixed>
+      <base-spinner> </base-spinner
+    ></base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input type="email" id="email" v-model.trim="email" />
+        </div>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model.trim="password" />
+        </div>
+        <p v-if="!formIsValid">Please enter a valid email and password</p>
+        <base-button>{{ submitButtonCaption }}</base-button>
+        <base-button type="button" mode="flat" @click="switchMode">{{
+          switchModeCaption
+        }}</base-button>
+      </form>
+    </base-card>
+  </div>
 </template>
 
 <script>
@@ -26,6 +34,8 @@ export default {
       password: '',
       formIsValid: true,
       mode: 'login',
+      error: null,
+      isLoading: false,
     };
   },
   computed: {
@@ -37,7 +47,7 @@ export default {
     },
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.formIsValid = true;
       if (
         this.email === '' ||
@@ -47,18 +57,26 @@ export default {
         this.formIsValid = false;
         return;
       }
-
-      if (this.mode === 'login') {
-        console.log();
-      } else {
-        this.$store.dispatch('signup', {
-          email: this.email,
-          password: this.password,
-        });
+      this.isLoading = true;
+      try {
+        if (this.mode === 'login') {
+          console.log();
+        } else {
+          await this.$store.dispatch('signup', {
+            email: this.email,
+            password: this.password,
+          });
+        }
+      } catch (err) {
+        this.error = err.message;
       }
+      this.isLoading = false;
     },
     switchMode() {
       this.mode = this.mode === 'login' ? 'signup' : 'login';
+    },
+    handleError() {
+      this.error = null;
     },
   },
 };
