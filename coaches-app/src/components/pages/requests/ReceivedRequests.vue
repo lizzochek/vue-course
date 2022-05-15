@@ -1,5 +1,6 @@
 <template>
   <base-dialog :show="!!error" title="An error occured" @close="handleError">
+    <p>{{ error }}</p>
   </base-dialog>
   <section>
     <base-card>
@@ -44,7 +45,7 @@ export default {
       this.$store.dispatch('requests/fetchRequests');
     },
     handleError() {
-      this.error = null;
+      this.$store.state.error = null;
     },
   },
   created() {
