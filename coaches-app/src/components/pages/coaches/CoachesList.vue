@@ -11,7 +11,8 @@
         <base-button mode="outline" @click="loadCoaches(true)"
           >Refresh</base-button
         >
-        <base-button v-if="!isCoach && !isLoading" link to="/register"
+        <base-button link to="/auth" v-if="!isLoggedIn">Log in</base-button>
+        <base-button v-if="allowRegistation" link to="/register"
           >Register as Coach</base-button
         >
       </div>
@@ -31,11 +32,12 @@
 </template>
 
 <script>
+import BaseButton from '../../base/BaseButton.vue';
 import CoachFilter from './CoachFilter.vue';
 import CoachItem from './CoachItem.vue';
 
 export default {
-  components: { CoachItem, CoachFilter },
+  components: { CoachItem, CoachFilter, BaseButton },
   data() {
     return {
       activeFilters: {
@@ -48,10 +50,15 @@ export default {
     };
   },
   computed: {
+    allowRegistration() {
+      return !this.isCoach && !this.isLoading && this.isLoggedIn;
+    },
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
     },
-
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
     filteredCoaches() {
       return this.$store.getters['coaches/getCoaches'].filter((coach) => {
         if (this.activeFilters.frontend && coach.areas.includes('frontend'))
