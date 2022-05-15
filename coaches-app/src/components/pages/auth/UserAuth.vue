@@ -58,14 +58,16 @@ export default {
         return;
       }
       this.isLoading = true;
+
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
       try {
         if (this.mode === 'login') {
-          console.log();
+          await this.$store.dispatch('login', actionPayload);
         } else {
-          await this.$store.dispatch('signup', {
-            email: this.email,
-            password: this.password,
-          });
+          await this.$store.dispatch('signup', actionPayload);
         }
       } catch (err) {
         this.error = err.message;
