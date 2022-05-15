@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      isLoading: false,
       coaches: [
         {
           id: 'c1',
@@ -56,12 +57,13 @@ export default {
       });
     },
     async loadCoaches(context) {
+      this.state.isLoading = true;
       const response = await fetch(
         `https://vue-http-requests-bf711-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
       );
 
       const resData = await response.json();
-
+      if (resData) this.state.isLoading = false;
       if (!response.ok) {
         //error
       }
@@ -71,7 +73,6 @@ export default {
       for (let value of Object.values(resData)) {
         coaches.push(value);
       }
-      console.log(coaches);
 
       context.commit('setCoaches', coaches);
     },
