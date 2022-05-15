@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      error: null,
       isLoading: false,
       coaches: [
         {
@@ -62,11 +63,13 @@ export default {
         `https://vue-http-requests-bf711-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
       );
 
+      if (!response.ok) {
+        this.state.error = response.message || 'Failed to fetch';
+        throw new Error(this.state.error);
+      }
+
       const resData = await response.json();
       if (resData) this.state.isLoading = false;
-      if (!response.ok) {
-        //error
-      }
 
       const coaches = [];
 

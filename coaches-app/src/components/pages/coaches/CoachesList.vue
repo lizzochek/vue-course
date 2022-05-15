@@ -1,4 +1,9 @@
 <template>
+  <base-dialog :show="!!error" title="An error occured" @close="handleError">
+    <p>
+      {{ error }}
+    </p>
+  </base-dialog>
   <section>
     <coach-filter @change-filter="setFilters"></coach-filter>
   </section>
@@ -61,6 +66,9 @@ export default {
     hasCoaches() {
       return this.$store.getters['coaches/hasCoaches'];
     },
+    error() {
+      return this.$store.state.error;
+    },
   },
   methods: {
     setFilters(updatedFilters) {
@@ -68,6 +76,9 @@ export default {
     },
     async loadCoaches() {
       this.$store.dispatch('coaches/loadCoaches');
+    },
+    handleError() {
+      this.$store.state.error = null;
     },
   },
   created() {
